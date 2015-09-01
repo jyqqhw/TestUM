@@ -7,9 +7,11 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.SinaSsoHandler;
 import com.umeng.socialize.sso.UMQQSsoHandler;
+import com.umeng.socialize.sso.UMSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -74,8 +76,8 @@ public class MainActivity extends Activity {
 		
 		
 		/*****************微信平台和微信朋友圈****************/
-		String appID = "wx967daebe835fbeac";
-		String appSecret = "5fa9e68ca3970e87a1f83e563c8dcbce";
+		String appID = "wx099e3772c6275b3f";
+		String appSecret = "7d93359ddf9dd31876c4f8ccb006bf2b";
 		// 添加微信平台
 		UMWXHandler wxHandler = new UMWXHandler(this,appID,appSecret);
 		wxHandler.addToSocialSDK();
@@ -99,6 +101,18 @@ public class MainActivity extends Activity {
 		/*****************QQ好友分享结束****************/
 		
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    super.onActivityResult(requestCode, resultCode, data);
+	    /**使用SSO授权必须添加如下代码 */  
+	    UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(requestCode);
+	    if(ssoHandler != null){
+	       ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+	    }
+	}
+	
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
